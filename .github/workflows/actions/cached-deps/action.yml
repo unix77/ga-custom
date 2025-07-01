@@ -1,0 +1,19 @@
+name: "Get & cache dependancies"
+description: "Get and cache dependencies for the project via npm"
+runs:
+  # here we specify to github that this is a composite action
+  using: "composite"
+  steps:
+    - name: Cache dependencies
+        id: cache
+        # you can use other actions in your actions
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      # at the action yml we need to specify what shell will be used to execute commands 
+      # such as the command above (npm ci)
+      shell: bash
