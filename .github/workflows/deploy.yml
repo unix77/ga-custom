@@ -24,15 +24,16 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      # now I will use my custom action
+      - name: Load & Cache dependencies
+        # I have to specify where is it located (path)
+        # if I have the custom action in another repo, then I must specify the repo name
+        # <yourGithubAccountName>/<yourRepoName>
+        # you do not need to specify the .yml extention, this will be detected automatically
+        # the path is about the root of the repo, and not from "here"
+        uses: ./.github/actions/cached-deps
+      - name: Lint code
+        run: npm run lint
       - name: Test code
         id: run-tests
         run: npm run test
@@ -48,15 +49,16 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      #
+      # now I will use my custom action
+      - name: Load & Cache dependencies
+        # I have to specify where is it located (path)
+        # if I have the custom action in another repo, then I must specify the repo name
+        # <yourGithubAccountName>/<yourRepoName>
+        # you do not need to specify the .yml extention, this will be detected automatically
+        # the path is about the root of the repo, and not from "here"
+        uses: ./.github/actions/cached-deps
+      #
       - name: Build website
         run: npm run build
       - name: Upload artifacts
