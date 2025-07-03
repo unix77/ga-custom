@@ -17,6 +17,10 @@ jobs:
         # you do not need to specify the .yml extention, this will be detected automatically
         # the path is about the root of the repo, and not from "here"
         uses: ./.github/actions/cached-deps
+        # here we specify the input to the action
+        with:
+          # this will disable caching for this job (we do not need this)
+          caching: false
       - name: Lint code
         run: npm run lint
   test:
@@ -58,7 +62,6 @@ jobs:
         # you do not need to specify the .yml extention, this will be detected automatically
         # the path is about the root of the repo, and not from "here"
         uses: ./.github/actions/cached-deps
-      #
       - name: Build website
         run: npm run build
       - name: Upload artifacts
