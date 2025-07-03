@@ -1,0 +1,7 @@
+name: "Deploy to AWS S3"
+description: "Deploy static files to AWS S3 bucket using JavaScript"
+runs:
+  # Specify that this action is a JavaScript action (we do not use composite anymore!)
+  using: "node20"
+  # Here we have to specify what file will be executed when the action is run
+  main: "main.js"
