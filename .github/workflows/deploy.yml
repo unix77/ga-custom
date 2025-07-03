@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v4
       # now I will use my custom action
       - name: Load & Cache dependencies
+        id: cached-deps
         # I have to specify where is it located (path)
         # if I have the custom action in another repo, then I must specify the repo name
         # <yourGithubAccountName>/<yourRepoName>
@@ -21,6 +22,8 @@ jobs:
         with:
           # this will disable caching for this job (we do not need this)
           caching: false
+      - name: Output information
+        run: echo "Cache used ${{ steps.cached-deps.outputs.used-cache }}"
       - name: Lint code
         run: npm run lint
   test:
