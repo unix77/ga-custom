@@ -87,3 +87,9 @@ jobs:
         run: ls
       - name: Deploy site
         run: echo "Deploying..."
+  # To use a custom JS action ,we can declare it here
+  information:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run justom JS action
+        uses: ./.github/actions/deploy-s3-javascript

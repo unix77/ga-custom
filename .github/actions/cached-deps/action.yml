@@ -12,7 +12,7 @@ outputs:
   used-cache:
     description: "Was the cache used?"
     # this output will be set to true if the cache was used
-    value: ${{ steps.install }}
+    value: ${{ steps.install.outputs.cache }}
 runs:
   # here we specify to github that this is a composite action
   using: "composite"
