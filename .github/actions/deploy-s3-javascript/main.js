@@ -22,7 +22,7 @@ function run() {
   // we will sync a local folder with the S3 bucket by running
   // we will build the bucket usir dinamically
   // here is the path to our s3 bucket
-  const s3Uri = `s3:://${bucket}`;
+  const s3Uri = `s3://${bucket}`;
   // this will be executed in the shell of our runner (ubuntu on github actions)
   // and will trigger the command. We are able to do this thanks to the exec imported from @actions/exec
   // we will also add an aditional flag, of the actual region
