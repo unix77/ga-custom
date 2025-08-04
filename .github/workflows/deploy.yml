@@ -102,14 +102,3 @@ jobs:
           bucket: gha-custom-bucket
           # here I must point to the location where the downloaded artifacts are (we uploaded them in the previous step)
           dist-folder: ./dist
-  # To use a custom JS action ,we can declare it here
-  information:
-    runs-on: ubuntu-latest
-    steps:
-      # get the code, so as then we have the action.yml ffrom the deploy-s3-javascript
-      - name: Get code
-        uses: actions/checkout@v4
-
-      - name: Run justom JS action
-        # here I will trigger the action.yml and that one will execute the js code from main.js !
-        uses: ./.github/actions/deploy-s3-javascript
