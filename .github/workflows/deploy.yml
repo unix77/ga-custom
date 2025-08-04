@@ -102,3 +102,4 @@ jobs:
           bucket: gha-custom-bucket
           # here I must point to the location where the downloaded artifacts are (we uploaded them in the previous step)
           dist-folder: ./dist
+          bucket-region: us-east-2
