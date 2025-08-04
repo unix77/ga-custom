@@ -1,7 +1,25 @@
 name: "Deploy to AWS S3"
 description: "Deploy static files to AWS S3 bucket using JavaScript"
+# we need some inputs that will provide information about the S3 bucket
+# we will extract this action inputs, at our js file.
+# we will not hardcode this, we will make it dynamic, so as we can reuse this in other projects
+# remember that this will be used in our js code, so we need to provide the inputs
+inputs:
+  bucket:
+    description: "The S3 bucket name"
+    required: true
+  # we MUST provide a bucket region the bucket belongs
+  bucket-region:
+    description: "The S3 bucket region"
+    # this is not a "must" as the buckets name, so we could set it as false + a default value
+    required: false
+    defualt: "us-east-1"
+  # path to the folder that contains the files to upload to the bucket
+  dist-folder:
+    description: "The folder that contains the files to upload to the bucket"
+    required: true
 runs:
   # Specify that this action is a JavaScript action (we do not use composite anymore!)
   using: "node20"
-  # Here we have to specify what file will be executed when the action is run
+  # Here we have to specify what file will be executed when the action runs
   main: "main.js"

@@ -67,6 +67,7 @@ jobs:
         uses: ./.github/actions/cached-deps
       - name: Build website
         run: npm run build
+        # here are the artifacts this step will produce, we will upload them to S3 !
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -85,14 +86,30 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+      # Next we will use the custom JS action we created to deploy the artifacts
+      # or any other files we want to deploy to S3
       - name: Deploy site
-        run: echo "Deploying..."
+        # we point to the path of the custom action
+        uses: ./.github/actions/deploy-s3-javascript
+        # we need to provide the access key and secret key of the aws bucket, in order t perform the file upload from out action -> to the bucket
+        # since we need this creds only at this step level, we will add them here
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        # since we need to provide inputs to the action, we will do it here
+        with:
+          # I need to provide my bucket name
+          bucket: gha-custom-bucket
+          # here I must point to the location where the downloaded artifacts are (we uploaded them in the previous step)
+          dist-folder: ./dist
   # To use a custom JS action ,we can declare it here
   information:
     runs-on: ubuntu-latest
     steps:
+      # get the code, so as then we have the action.yml ffrom the deploy-s3-javascript
       - name: Get code
         uses: actions/checkout@v4
 
       - name: Run justom JS action
+        # here I will trigger the action.yml and that one will execute the js code from main.js !
         uses: ./.github/actions/deploy-s3-javascript
