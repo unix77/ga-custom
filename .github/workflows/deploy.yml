@@ -89,6 +89,7 @@ jobs:
       # Next we will use the custom JS action we created to deploy the artifacts
       # or any other files we want to deploy to S3
       - name: Deploy site
+        id: deploy
         # we point to the path of the custom action
         uses: ./.github/actions/deploy-s3-javascript
         # we need to provide the access key and secret key of the aws bucket, in order t perform the file upload from out action -> to the bucket
@@ -103,3 +104,7 @@ jobs:
           # here I must point to the location where the downloaded artifacts are (we uploaded them in the previous step)
           dist-folder: ./dist
           bucket-region: us-east-1
+      # here we output the url of the deployed website, directly from the output of the action
+      - name: Output information
+        run: |
+          echo "Website deployed at ${{ steps.deploy.outputs.website-url }}"

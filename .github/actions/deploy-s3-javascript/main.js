@@ -32,7 +32,16 @@ function run() {
   exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
 
   // this lets us log a message in github actions
-  core.notice("Hi from my custon js actions ! :)");
+  core.notice(
+    "Hi from my custom js action that deploys my website to aws ! :)"
+  );
+
+  // 3) Output the URL of the deployed website
+  // the url has this format, you can check it on the s3 bucket at the aws page itself
+  const websiteUrl = `https://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
+  // now se will set the output of the action by using the core.setOutput method
+  // we have to target the same id as the one we set in the action.yml file! in this case we used the naming "website-url"
+  core.setOutput("website-url", websiteUrl);
 }
 
 run();

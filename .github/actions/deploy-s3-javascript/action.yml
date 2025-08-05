@@ -18,6 +18,13 @@ inputs:
   dist-folder:
     description: "The folder that contains the files to upload to the bucket"
     required: true
+# we want to output the url of the website directly at the action itself
+output:
+  # we can use the expression we want here, its like a name
+  website-url:
+    description: "The URL of the deployed website"
+    # we do not need to use "value" because we will set this output in the main.js file, and not in the action.yml
+
 runs:
   # Specify that this action is a JavaScript action (we do not use composite anymore!)
   using: "node20"
