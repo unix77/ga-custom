@@ -14,4 +14,4 @@ RUN pip install -r requiredments.txt
 COPY deployment.py /deployment.py
 
 # we execute the deployment.py file when the container has started its execution
-CMD ["""python", "/deployment.py"]
+CMD ["python", "/deployment.py"]
