@@ -2,6 +2,9 @@ name: "Deploy to AWS S3 with python dockerized image"
 description: "Deploy to AWS S3 with python dockerized image"
 
 # we have to get the inputs
+# for every input, github actions generates an environment variable
+# that starts with "INPUT_" followed by the name of the input in uppercase letters
+# so for the input "bucket" we will have the environment variable "INPUT_BUCKET", and so on
 inputs:
   bucket:
     description: "The S3 bucket name"

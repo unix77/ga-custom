@@ -1,6 +1,6 @@
 # create container based on python image
 # where python is intalled
-FROM python:3
+FROM python:3.11-alpine
 
 # we copy the requirements.txt file into the container
 # (packages that should be installed into the container)
