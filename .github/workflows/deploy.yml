@@ -91,7 +91,8 @@ jobs:
       - name: Deploy site
         id: deploy
         # we point to the path of the custom action
-        uses: ./.github/actions/deploy-s3-javascript
+        # uses: ./.github/actions/deploy-s3-javascript
+        uses: ./.github/actions/deploy-s3-docker
         # we need to provide the access key and secret key of the aws bucket, in order t perform the file upload from out action -> to the bucket
         # since we need this creds only at this step level, we will add them here
         env:
