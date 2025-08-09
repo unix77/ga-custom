@@ -74,6 +74,13 @@ jobs:
           name: dist-files
           path: dist
   deploy:
+    # we need to add permissions here, in order to be able to use the AWS permissions
+    permissions:
+      # needed to interect with the token from the AWS account
+      # so that the temporary token with the permissions can be created
+      id-token: write
+      # we need to add the next one in order to be able to read the contents of the S3 bucket
+      contents: read
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -86,6 +93,16 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+      # we use a new step to use openID connect get permissions from AWS
+      # so that then we can use those permissions in the next steps
+      - name: Get AWS permissions
+        # we use this predefined action to get the permissions from AWS
+        uses: aws-actions/configure-aws-credentials
+        # we need some inputs to this action
+        with:
+          # here we paste the role created from AWS (the ARN of the role)
+          role-to-assume: arn:aws:iam::290780714683:role/GithubDemo1
+          aws-region: us-east-1
       # Next we will use the custom JS action we created to deploy the artifacts
       # or any other files we want to deploy to S3
       - name: Deploy site
@@ -95,13 +112,14 @@ jobs:
         uses: ./.github/actions/deploy-s3-docker
         # we need to provide the access key and secret key of the aws bucket, in order t perform the file upload from out action -> to the bucket
         # since we need this creds only at this step level, we will add them here
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        # we do not need this anymore, since we will use openID conenct set up from AWS
+        # env:
+        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         # since we need to provide inputs to the action, we will do it here
         with:
           # I need to provide my bucket name
-          bucket: gha-custom-bucket
+          bucket: gha-security-histing-demo
           # here I must point to the location where the downloaded artifacts are (we uploaded them in the previous step)
           dist-folder: ./dist
           bucket-region: us-east-1
