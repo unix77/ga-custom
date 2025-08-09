@@ -97,7 +97,7 @@ jobs:
       # so that then we can use those permissions in the next steps
       - name: Get AWS permissions
         # we use this predefined action to get the permissions from AWS
-        uses: aws-actions/configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4
         # we need some inputs to this action
         with:
           # here we paste the role created from AWS (the ARN of the role)
