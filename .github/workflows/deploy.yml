@@ -110,12 +110,6 @@ jobs:
         # we point to the path of the custom action
         # uses: ./.github/actions/deploy-s3-javascript
         uses: ./.github/actions/deploy-s3-docker
-        # we need to provide the access key and secret key of the aws bucket, in order t perform the file upload from out action -> to the bucket
-        # since we need this creds only at this step level, we will add them here
-        # we do not need this anymore, since we will use openID conenct set up from AWS
-        # env:
-        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         # since we need to provide inputs to the action, we will do it here
         with:
           # I need to provide my bucket name
